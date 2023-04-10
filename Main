@@ -1,0 +1,119 @@
+# A simple text-based adventure game
+# This is Bing
+
+# Import the random module
+import random
+
+# Define some variables
+inventory = [] # The player's inventory
+rooms = ["kitchen", "living room", "bedroom", "bathroom"] # The possible rooms
+current_room = "kitchen" # The starting room
+game_over = False # A flag to indicate if the game is over
+
+# Define some functions
+def print_room():
+  # Print the current room and its contents
+  global current_room
+  print("You are in the", current_room)
+  if current_room == "kitchen":
+    print("There is a fridge, a stove, and a table.")
+    if "key" not in inventory:
+      print("There is a key on the table.")
+  elif current_room == "living room":
+    print("There is a sofa, a TV, and a bookshelf.")
+    if "book" not in inventory:
+      print("There is a book on the bookshelf.")
+  elif current_room == "bedroom":
+    print("There is a bed, a closet, and a window.")
+    if "flashlight" not in inventory:
+      print("There is a flashlight in the closet.")
+  elif current_room == "bathroom":
+    print("There is a sink, a toilet, and a shower.")
+    if "soap" not in inventory:
+      print("There is a soap on the sink.")
+
+def get_input():
+  # Get the user input and validate it
+  global game_over
+  command = input("What do you want to do? ").lower()
+  valid_commands = ["go", "get", "use", "quit"]
+  if command == "":
+    print("Please enter a command.")
+    return None
+  elif command == "quit":
+    print("You quit the game.")
+    game_over = True
+    return None
+  else:
+    words = command.split()
+    if len(words) != 2:
+      print("Please enter a two-word command.")
+      return None
+    elif words[0] not in valid_commands:
+      print("Please enter a valid command.")
+      return None
+    else:
+      return words
+
+def go(direction):
+  # Move to a different room
+  global current_room
+  if direction == "north":
+    if current_room == "kitchen":
+      current_room = "living room"
+      print("You go north to the living room.")
+    elif current_room == "living room":
+      current_room = "bedroom"
+      print("You go north to the bedroom.")
+    else:
+      print("You can't go that way.")
+  elif direction == "south":
+    if current_room == "living room":
+      current_room = "kitchen"
+      print("You go south to the kitchen.")
+    elif current_room == "bedroom":
+      current_room = "living room"
+      print("You go south to the living room.")
+    else:
+      print("You can't go that way.")
+  elif direction == "east":
+    if current_room == "bedroom":
+      current_room = "bathroom"
+      print("You go east to the bathroom.")
+    else:
+      print("You can't go that way.")
+  elif direction == "west":
+    if current_room == "bathroom":
+      current_room = "bedroom"
+      print("You go west to the bedroom.")
+    else:
+      print("You can't go that way.")
+  else:
+    print("Please enter a valid direction.")
+
+def get(item):
+  # Pick up an item and add it to the inventory
+  global inventory
+  global current_room
+  if item == "key":
+    if current_room == "kitchen" and item not in inventory:
+      inventory.append(item)
+      print("You get the key from the table.")
+    else:
+      print("You can't get that item here.")
+  elif item == "book":
+    if current_room == "living room" and item not in inventory:
+      inventory.append(item)
+      print("You get the book from the bookshelf.")
+    else:
+      print("You can't get that item here.")
+  elif item == "flashlight":
+    if current_room == "bedroom" and item not in inventory:
+      inventory.append(item)
+      print("You get the flashlight from the closet.")
+    else:
+      print("You can't get that item here.")
+  elif item == "soap":
+    if current_room == "bathroom" and item not in inventory:
+      inventory.append(item)
+      print("You get the soap
